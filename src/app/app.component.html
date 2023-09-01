@@ -1,0 +1,7 @@
+<ng-container *ngIf="isPageNotFound | async">
+  <app-nav-bar></app-nav-bar>
+</ng-container>
+<div class="container">
+  <router-outlet></router-outlet>
+  <!--  <app-login (isLogin)="checkIsLogin($event)"></app-login>-->
+</div>

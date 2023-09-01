@@ -1,0 +1,28 @@
+<h3 class="text-center mt-2">Product Catalog</h3>
+<hr>
+<div class="d-flex justify-content-center" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let product of products">
+      <div class="card">
+        <div style="height: 200px; border: 1px solid lightgrey">
+          <img src="{{product.image}}" class="card-img-top card-img-fit" alt="Product 1">
+        </div>
+        <div class="card-body">
+          <div style="height: 60px; /* Set a fixed height for the scrollable area */
+            overflow-y: auto;">
+            <h6 class="card-title">{{product.title}}</h6>
+          </div>
+          <p class="card-text">{{product.price | currency: 'INR'}}</p>
+          <button class="btn btn-sm btn-primary me-2" [routerLink]="['/product',product.id]">View Details</button> <a href="#" class="btn btn-sm btn-danger">Add
+          to Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
