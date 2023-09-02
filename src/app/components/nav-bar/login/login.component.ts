@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
+
   onSubmit() {
 
     this.loginResponse = new LoginResponse(this.loginForm.value['username'], this.loginForm.value['password']);
