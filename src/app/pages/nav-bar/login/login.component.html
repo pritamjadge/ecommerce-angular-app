@@ -16,7 +16,7 @@
 
         <label for="password" class="form-label">Password :</label>
         <div class="mb-3 input-group">
-          <input [type]="passwordStatus" class="form-control" id="password" formControlName="password"
+          <input type="text" class="form-control" id="password" formControlName="password"
                  placeholder="Please Enter Password">
           <span class="input-group-text" (click)="showHidePassword();">
                         <div *ngIf="!passwordShow; else elseBlock"><i class="fa fa-eye-slash" aria-hidden="true"></i>
@@ -44,4 +44,4 @@
     </div>
   </div>
   <h6 class="text-center mt-3">OR</h6>
-  <h6 class="text-center"><a href="">Sign Up</a></h6>
+  <h6 class="text-center"><a routerLink="/sign-up">Sign Up</a></h6>

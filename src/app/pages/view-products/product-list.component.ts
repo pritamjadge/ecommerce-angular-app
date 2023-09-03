@@ -15,7 +15,7 @@ export class ProductListComponent implements OnInit {
   products!: Product[];
   isLoading!: boolean;
 
-  constructor(private authenticationService: AuthenticationService, private productService: ProductService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private _productService: ProductService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -24,7 +24,7 @@ export class ProductListComponent implements OnInit {
 
   getAllProducts() {
     this.isLoading = true;
-    this.productService.getAllProducts().subscribe({
+    this._productService.getAllProducts().subscribe({
       next: (productData) => {
         if (productData !== null) {
           this.isLoading = false;
@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit {
   viewProductDetails(productId: number): void {
     console.log("viewProductDetails");
     //debugger;
-    this.productService.viewProductDetails(productId).subscribe({
+    this._productService.viewProductDetails(productId).subscribe({
       next: (productDetails) => {
         console.log(productDetails);
         if (productDetails !== null) {
@@ -52,6 +52,12 @@ export class ProductListComponent implements OnInit {
       }
     })
   }
+
+  addToCart() {
+    debugger;
+    this._productService.setAddCartCount(1);
+  }
+
 
   // callApi() {
   //   this.authenticationService.callApi().subscribe(val => {

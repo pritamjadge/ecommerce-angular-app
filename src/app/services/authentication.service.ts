@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {LoginResponse} from "../models/LoginResponse";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {User} from "../models/User";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -39,6 +40,10 @@ export class AuthenticationService {
   isLoggedIn() {
     let token = localStorage.getItem('token');
     return !(token === null || token === '' || token === undefined);
+  }
+
+  signUp(user: User): Observable<any> {
+    return this._http.post(`${this.baseUrl}/signUp`, user);
   }
 
   logout() {

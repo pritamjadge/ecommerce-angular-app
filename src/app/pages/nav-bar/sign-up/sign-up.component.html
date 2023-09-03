@@ -1,0 +1,34 @@
+<form [formGroup]="signUpForm" (submit)="signUp(signUpForm.value)">
+<div class="row mt-5 border border-secondary p-3 rounded-3" style="margin: auto; width: 450px">
+  <h3 class="text-center">Sign Up</h3>
+  <hr>
+    <div class="col-md-6 mb-2">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name" aria-label="First name">
+    </div>
+    <div class="col-md-6 mb-2">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last Name" aria-label="Last name">
+    </div>
+    <div class="col-md-12 mb-2">
+      <label for="emailId" class="form-label">Email ID</label>
+      <input type="email" class="form-control" id="emailId" formControlName="emailId" placeholder="Email ID" aria-label="emailId">
+    </div>
+    <div class="col-md-12 mb-2">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" aria-label="password">
+    </div>
+    <div class="col-md-12 mb-2">
+      <label for="confirmPassword" class="form-label">Confirm Password</label>
+      <input [type]="showPassword" class="form-control" formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
+             aria-label="confirmPassword">
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
+    <div class="col-md-6 d-flex justify-content-start">
+      <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+</div>
+</form>
+<h6>{{signUpForm.value | json}}</h6>

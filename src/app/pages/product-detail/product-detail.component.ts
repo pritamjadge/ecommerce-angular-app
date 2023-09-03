@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/product.service";
 import {Product} from "../../models/Product";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: 'app-product-detail',
@@ -33,7 +34,4 @@ export class ProductDetailComponent implements OnInit {
       this.product = productDetail;
     });
   }
-
-
-
 }

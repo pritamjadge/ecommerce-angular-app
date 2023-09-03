@@ -5,6 +5,7 @@ import {LoginComponent} from "./login/login.component";
 import {ReactiveFormsModule} from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { RouterModule } from '@angular/router';
   declarations: [
     NavBarComponent,
     LoginComponent,
+    SignUpComponent,
   ],
   exports: [
     NavBarComponent

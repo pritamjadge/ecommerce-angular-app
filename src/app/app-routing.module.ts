@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./components/nav-bar/login/login.component";
-import {ProductListComponent} from "./components/view-products/product-list.component";
+import {LoginComponent} from "./pages/nav-bar/login/login.component";
+import {ProductListComponent} from "./pages/view-products/product-list.component";
 import {AuthGuard} from "./guard/auth.guard";
-import {EmployeeListComponent} from "./components/employee-list/employee-list.component";
 import {IsSignedInGuard} from "./guard/IsSignedInGuard";
-import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
+import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
 import {PageNotFoundActivateGuard} from "./guard/page-not-found-activate-guard.service";
-import {ProductDetailComponent} from "./components/product-detail/product-detail.component";
+import {ProductDetailComponent} from "./pages/product-detail/product-detail.component";
+import {SignUpComponent} from "./pages/nav-bar/sign-up/sign-up.component";
 
 const routes: Routes = [
 
@@ -36,6 +36,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [IsSignedInGuard],
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
   },
   {
     path: '**',
