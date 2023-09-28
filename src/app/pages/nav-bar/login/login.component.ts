@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from "../../../services/authentication.service";
 import {LoginResponse} from "../../../models/LoginResponse";
@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
   }
 
   showHidePassword() {
-
     if (this.passwordShow) {
       this.passwordShow = false;
       this.passwordStatus = 'password';
@@ -59,9 +58,9 @@ export class LoginComponent implements OnInit {
           const token = resp.tokenType + " " + resp.accessToken;
           this.tokenStorage.setToken(token);
           this.tokenStorage.setRefreshToken(resp.refreshToken);
-          localStorage.setItem("username", resp.username);
+          this.loginService.setLocalStorageData(resp);
           this.loginService.setLoggedInStatus(true);
-          this.loginService.setUsername(resp.username);
+          this.loginService.setFirstName(resp.firstName);
           this.toastrService.success('You have logged in successfully!');
           this.router.navigate(['/product']).then();
         },

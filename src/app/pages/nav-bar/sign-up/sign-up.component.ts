@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthenticationService } from "../../../services/authentication.service";
-import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
-import { User } from "../../../models/User";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthenticationService} from "../../../services/authentication.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {User} from "../../../models/User";
 
 @Component({
   selector: 'app-sign-up',
@@ -19,7 +19,8 @@ export class SignUpComponent implements OnInit {
     private _authService: AuthenticationService,
     private _toastr: ToastrService,
     private _router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -27,8 +28,9 @@ export class SignUpComponent implements OnInit {
 
   initializeForm(): void {
     this.signUpForm = this._fb.group({
-      firstName: ['Pritam', [Validators.required]],
-      lastName: ['Jadge', [Validators.required]],
+      userName: ['pritamjadge', [Validators.required]],
+      firstName : ['Pritam', [Validators.required]],
+      lastName : ['Jadge', [Validators.required]],
       emailId: ['pritam.jadge@gmail.com', [Validators.required, Validators.email]],
       password: ['Pritam@1994', [Validators.required]],
       confirmPassword: ['Pritam@1994', [Validators.required]],
@@ -41,10 +43,11 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    const { firstName, lastName, emailId, password, role } = formData;
+    const { userName,firstName, lastName, emailId, password, role} = formData;
     const username = `${firstName} ${lastName}`;
     console.log(username);
-    const newUser = new User(username, emailId, password, role);
+
+    const newUser = new User(userName, firstName, lastName, emailId, password, role);
 
     this._authService.signUp(newUser).subscribe({
       next: (resp) => {
@@ -54,6 +57,8 @@ export class SignUpComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        let error = err.error.message.replace(/^Error:\s*/, '');
+        this.showErrorMessage(error);
       }
     });
   }
@@ -64,5 +69,9 @@ export class SignUpComponent implements OnInit {
 
   showSuccessMessage(message: string): void {
     this._toastr.success(message);
+  }
+
+  private showErrorMessage(error: string) {
+    this._toastr.error(error);
   }
 }

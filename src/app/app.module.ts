@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -15,8 +15,14 @@ import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.compo
 import {PageNotFoundActivateGuard} from "./guard/page-not-found-activate-guard.service";
 import {AuthorizationInterceptor} from "./services/authorization.interceptor";
 import {NavBarModule} from "./pages/nav-bar/nav-bar.module";
-import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
-
+import {ProductDetailComponent} from './pages/product-detail/product-detail.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
+import {NgFor} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,6 +43,14 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatSelectModule,
+    NgFor,
+    FormsModule
 
   ],
   providers: [{
@@ -46,4 +60,5 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
   }, AuthGuard, IsSignedInGuard, AuthenticationService, PageNotFoundActivateGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

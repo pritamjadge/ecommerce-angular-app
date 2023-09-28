@@ -1,12 +1,14 @@
-export interface Product {
+export interface ProductImage {
   id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  imageUrl: string;
+ // imageName: string;
+}
+
+export interface Product {
+  productId: number;
+  productName: string;
+  productDescription: string;
+  productQty: number;
+  productPrice: number;
+  productImages: ProductImage[];
 }

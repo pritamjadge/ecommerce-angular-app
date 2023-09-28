@@ -17,7 +17,7 @@ export class AuthenticationService {
   private baseUrl: String = 'http://localhost:8080/api/auth';
 
   private _loggedInStatus = new BehaviorSubject<boolean>(this.isLoggedIn());
-  private _username = new BehaviorSubject<string>(localStorage.getItem('username')!);
+  private _firstName = new BehaviorSubject<string>(localStorage.getItem('firstName')!);
 
   constructor(private _http: HttpClient, private _router: Router) {
 
@@ -62,12 +62,17 @@ export class AuthenticationService {
     this._loggedInStatus.next(value);
   }
 
-  getUsername() {
-    return this._username.asObservable();
+  getFirstName() {
+    return this._firstName.asObservable();
   }
 
-  setUsername(value: string) {
-    this._username.next(value);
+  setFirstName(value: string) {
+    this._firstName.next(value);
   }
 
+  setLocalStorageData(response : any) {
+    localStorage.setItem("username", response.username);
+    localStorage.setItem("firstName", response.firstName);
+    localStorage.setItem("lastName", response.lastName);
+  }
 }

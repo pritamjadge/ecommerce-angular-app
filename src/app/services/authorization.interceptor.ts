@@ -29,7 +29,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     }
     return next.handle(authReq).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/signIn') && error.status === 401) {
-        console.log("Token Expire will handle 401 Error");
+        console.log("Token Expired will handle 401 Error");
         return this.handle401Error(authReq, next);
       }
       return throwError(error);

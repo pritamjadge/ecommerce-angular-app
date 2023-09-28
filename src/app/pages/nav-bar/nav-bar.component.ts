@@ -13,7 +13,7 @@ import {ProductService} from "../../services/product.service";
 export class NavBarComponent implements OnInit {
 
   isLoggedIn!: Observable<boolean>;
-  userName!: Observable<string>;
+  firstName!: Observable<string>;
   cartCount!: Observable<number>;
 
   constructor(private _authService: AuthenticationService, private _toastrService: ToastrService, private _productService: ProductService) {
@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this._authService.getLoggedInStatus();
-    this.userName = this._authService.getUsername();
+    this.firstName = this._authService.getFirstName();
     this.cartCount = this._productService.getAddToCartCount();
     this.cartCount.subscribe(count => console.log(count));
   }
@@ -30,7 +30,7 @@ export class NavBarComponent implements OnInit {
 
   logout() {
     this._authService.logout();
-    this._toastrService.success('Logout Successfully!');
+    this._toastrService.success('Logout Successfully !');
   }
 
 }

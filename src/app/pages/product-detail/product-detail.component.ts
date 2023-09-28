@@ -11,8 +11,8 @@ import {BehaviorSubject, Observable} from "rxjs";
 })
 export class ProductDetailComponent implements OnInit {
 
-  productId!: number;
-  product!: Product;
+  productId : number | undefined;
+  product: Product | undefined;
 
   constructor(private _activatedRoute: ActivatedRoute, private _router: Router, private _productService: ProductService) {
   }
@@ -29,9 +29,10 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  getProductDetail(id: number) {
-    this._productService.viewProductDetails(id).subscribe(productDetail => {
+  getProductDetail(productId: number) {
+    this._productService.viewProductDetails(productId).subscribe(productDetail => {
       this.product = productDetail;
+      console.log(this.product);
     });
   }
 }
