@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/product.service";
 import {Product} from "../../models/Product";
-import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: 'app-product-detail',
@@ -12,7 +11,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 export class ProductDetailComponent implements OnInit {
 
   productId : number | undefined;
-  product: Product | undefined;
+  product!: Product ;
 
   constructor(private _activatedRoute: ActivatedRoute, private _router: Router, private _productService: ProductService) {
   }
@@ -21,7 +20,7 @@ export class ProductDetailComponent implements OnInit {
     this._activatedRoute.paramMap.subscribe({
       next: (param) => {
         this.productId = Number(param.get('id'));
-        this.getProductDetail(this.productId);
+        this.getProductDetails(this.productId);
       },
       error: (err) => {
         console.log(err);
@@ -29,7 +28,7 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  getProductDetail(productId: number) {
+  getProductDetails(productId: number) {
     this._productService.viewProductDetails(productId).subscribe(productDetail => {
       this.product = productDetail;
       console.log(this.product);

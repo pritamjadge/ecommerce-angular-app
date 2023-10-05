@@ -34,11 +34,10 @@
              aria-label="confirmPassword">
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">Sign Up</button>
+      <button type="submit" class="btn btn-primary" [disabled]="signup_reset_btn">Sign Up</button>
     </div>
     <div class="col-md-6 d-flex justify-content-start">
-      <button type="reset" class="btn btn-secondary">Reset</button>
+      <button type="reset" class="btn btn-secondary" [disabled]="signup_reset_btn">Reset</button>
     </div>
   </div>
 </form>
-<h6>{{signUpForm.value | json}}</h6>

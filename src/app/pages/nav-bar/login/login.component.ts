@@ -65,12 +65,14 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/product']).then();
         },
         error: (err) => {
-          console.log(err);
+          console.log(err.error);
           this.showAlert = 'block';
           if (err.status == 0) {
             this.alertErrorMessage = "Connection not established";
-          } else if (err.status == 401) {
-            this.alertErrorMessage = "Bad Credentials";
+          } else if (err.status == 401 && err.error.message === "Bad credentials") {
+            this.alertErrorMessage = err.error.message;
+          } else if (err.status == 401 && err.error.message === "User is disabled") {
+            this.alertErrorMessage = "Account is not activated.";
           }
         }
       })

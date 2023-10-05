@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/Product';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MatLegacyPaginator} from '@angular/material/legacy-paginator';
+import {Category} from '../../models/Category';
 import {AuthenticationService} from "../../services/authentication.service";
+import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
-import {DomSanitizer} from "@angular/platform-browser";
-import {MatLegacyPaginator} from "@angular/material/legacy-paginator";
 
 @Component({
   selector: 'app-product',
@@ -13,82 +14,49 @@ import {MatLegacyPaginator} from "@angular/material/legacy-paginator";
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  pageIndex: number = 0;
-  pageSize: number = 12;
+  // Properties
+  pageIndex = 0;
+  pageSize = 12;
   products: Product[] = [];
-  isLoading: boolean = false;
-
-  foods: any [] = [
-    {value: 'pizza-1', viewValue: 'Mobile'},
-    {value: 'tacos-2', viewValue: 'Cloths'},
-  ];
-
+  categories: Category[] = [];
+  isLoading = false;
   totalPages: number | undefined;
-  productName: string | undefined;
+  productName = '';
+  categoryId: any = '';
+  productNotFoundMessage: string = "";
+  errorMessage: string = "";
 
-  constructor(
-    private _productService: ProductService,
-    private router: Router,
-    private sanitizer: DomSanitizer
-  ) {
+  constructor(private productService: ProductService,
+              private authService: AuthenticationService,
+              private _router: Router) {
   }
 
   ngOnInit(): void {
+    // Initialize data on component load
     this.getAllProducts(this.pageIndex, this.pageSize);
+    this.getAllCategories();
   }
 
-  getAllProductsPagination(pageIndex: number, pageSize: number) {
-    if (!this.productName) {
-      this.getAllProducts(pageIndex, pageSize);
-    } else {
-      this.fetchProducts(this.productName, pageIndex, pageSize);
-    }
+  // Event Handlers
+
+  // Handle category change event
+  getCategoryProductsOnChange(event: any, matPaginator: MatLegacyPaginator) {
+    const pageIndex = matPaginator.pageIndex;
+    const pageSize = matPaginator.pageSize;
+    const selectedValue = event.target.value;
+    this.categoryId = selectedValue;
+    this.getAllProductsPagination(pageIndex, pageSize);
   }
 
+  // Handle product name input change event
   findByProductsName(event: any, matPaginator: MatLegacyPaginator) {
     const pageIndex = matPaginator.pageIndex;
     const pageSize = matPaginator.pageSize;
     this.productName = event.target.value;
-    this.fetchProducts(this.productName ?? '', pageIndex, pageSize);
+    this.fetchProducts(this.productName, pageIndex, pageSize);
   }
 
-  fetchProducts(productName: string, pageIndex: number, pageSize: number) {
-    this._productService.findByProductsName(productName, pageIndex, pageSize).subscribe({
-      next: (productData: any) => {
-        if (productData !== null || productData.content != '[]' || productData.content != null) {
-          this.isLoading = false;
-          this.totalPages = productData.totalPages;
-          this.products = productData.content;
-          console.log(this.products);
-        } else {
-          console.log("No Product Has been Found...!!")
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err.error);
-        this.isLoading = false;
-      }
-    })
-  }
-
-  getAllProducts(pageIndex: number, pageSize: number): void {
-    this.isLoading = true;
-    this._productService.getAllProducts(pageIndex, pageSize).subscribe({
-      next: (productData: any) => {
-        if (productData !== null) {
-          this.isLoading = false;
-          this.totalPages = productData.totalPages;
-          this.products = productData.content;
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err.error);
-        this.isLoading = false;
-      }
-    });
-  }
-
-
+  // Handle sorting
   sort(criteria: string): void {
     switch (criteria) {
       case 'name':
@@ -105,37 +73,97 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  // Methods
+
+  // Fetch products based on name and category
+  fetchProducts(productName: string, pageIndex: number, pageSize: number) {
+    const categoryId = this.categoryId;
+    this.productService.findByProductsByNameAndCategory(productName, categoryId, pageIndex, pageSize).subscribe({
+      next: (productData: any) => {
+        this.handleProductData(productData);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage = "Something went wrong, Please try again late.r";
+        this.isLoading = false;
+      }
+    });
+  }
+
+  // Handle product data from API response
+  private handleProductData(productData: any): void {
+    if (productData !== null) {
+      this.totalPages = productData.totalPages;
+      this.products = productData.content || [];
+
+      if (this.products.length === 0) {
+        this.productNotFoundMessage = "Product Not Found, try again later.";
+        console.log('Product Not Found, try again later.');
+      }
+      this.isLoading = false;
+    }
+  }
+
+  // Get all products with pagination
+  getAllProductsPagination(pageIndex: number, pageSize: number) {
+    if (this.productName === '' && this.categoryId === '') {
+      this.getAllProducts(pageIndex, pageSize);
+    } else {
+      this.fetchProducts(this.productName, pageIndex, pageSize);
+    }
+  }
+
+  // Get all product categories
+  getAllCategories() {
+    this.productService.getAllCategories().subscribe({
+      next: (category: Category[]) => {
+        this.categories = category;
+      },
+      error: (err: any) => {
+        console.log(err.error);
+        this.errorMessage = "Something went wrong, Please try again later.";
+        this.isLoading = false;
+      }
+    });
+  }
+
+  // Get all products
+  getAllProducts(pageIndex: number, pageSize: number): void {
+    this.isLoading = true;
+    this.productService.getAllProducts(pageIndex, pageSize).subscribe({
+      next: (productData: any) => {
+        this.handleProductData(productData);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Status:', err.status);
+        if (err.status == 0) {
+          this.errorMessage = "Something went wrong, Please try again later";
+        }
+      }
+    });
+  }
+
+  // Utility method to compare strings for sorting
   private compareStrings(a: string, b: string): number {
     const nameA = a.toLowerCase();
     const nameB = b.toLowerCase();
     return nameA.localeCompare(nameB);
   }
 
-  sanitizeImageUrl(imageUrl: string): any {
-    let image = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-    // console.log(image);
-    return image;
-  }
+  // Add product to cart (if needed)
+  addToCart(productId: number) {
+    if (!this.authService.isLoggedIn()) {
+      Swal.fire({
+        title: 'User Not Logged in.',
+        text: 'Please Sign-In to add product to cart.',
+        icon: 'info',
+        allowOutsideClick: true,
+      }).then();
+      return false;
+    } else {
+      console.log("User Login");
+      //this.productService.setAddCartCount(1);
+      return true;
+    }
 
-
-  // viewProductDetails(productId: number): void {
-  //   this._productService.viewProductDetails(productId).subscribe({
-  //     next: (productDetails) => {
-  //       console.log(productDetails);
-  //       if (productDetails !== null) {
-  //         this.router.navigate(['./view-product-details'], {
-  //           queryParams: {product: JSON.stringify(productDetails)}
-  //         }).then();
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.log(err);
-  //     }
-  //   })
-  // }
-
-  addToCart() {
-    debugger;
-    this._productService.setAddCartCount(1);
   }
 }

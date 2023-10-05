@@ -16,8 +16,8 @@ import {PageNotFoundActivateGuard} from "./guard/page-not-found-activate-guard.s
 import {AuthorizationInterceptor} from "./services/authorization.interceptor";
 import {NavBarModule} from "./pages/nav-bar/nav-bar.module";
 import {ProductDetailComponent} from './pages/product-detail/product-detail.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
@@ -50,8 +50,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatButtonModule,
     MatSelectModule,
     NgFor,
-    FormsModule
-
+    FormsModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

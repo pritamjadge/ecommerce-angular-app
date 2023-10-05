@@ -1,17 +1,18 @@
-<h3 class="mt-2 text-center">Product Details</h3>
+
+<h2  class="mt-2 text-center">Product Details</h2>
 <hr>
-<div class="container mt-5">
-  <button type="button" [routerLink]="['../']" class="btn btn-small btn-info mb-1">Back</button>
+<div class="container mt-3">
+ <!-- <button type="button" [routerLink]="['../']" class="btn btn-small btn-info mb-1">Back</button> -->
   <div class="row">
     <div class="col-md-6 div-height">
-      <img src="{{product.image}}" alt="Product Image" class="img-fluid product-image">
+      <img src="{{product.productImages[0].imageUrl}}" alt="Product Image" class="img-fluid product-image">
     </div>
     <div class="col-md-6" style="">
       <div class="product-details d-flex flex-column justify-content-center align-items-right">
-        <h4>{{product.title}}</h4>
-        <p class="lead">{{product.description}}</p>
-        <p class="lead">Product Availability: {{product.rating.count}}</p>
-        <p class="h2 text-danger">{{product.price | currency: 'INR'}}</p>
+        <h4>{{product.productName}}</h4>
+        <p class="lead">{{product.productDescription}}</p>
+        <p class="lead">Product Availability: {{product.productQty}}</p>
+        <p class="h2 text-danger">{{product.productPrice | currency: 'INR'}}</p>
         <div class="mt-4">
           <button class="btn btn-primary me-2">Add to Cart</button>
           <button class="btn btn-danger">Buy Now</button>
