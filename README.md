@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
 
+#ScreenShort
+![Screenshot 2023-10-06 173032](https://github.com/pritamjadge/ecommerce-angular-app/assets/54236961/7819716a-f308-4c2f-849a-8caa8cd74200)
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
