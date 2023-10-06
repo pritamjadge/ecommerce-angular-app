@@ -12,11 +12,14 @@
           <a class="nav-link active" routerLink="/product" aria-current="page">Home</a>
         </li>
       </ul>
-      <ul class="navbar-nav d-flex">
+
+      <ul class="navbar-nav d-flex" style="margin-right: 10px">
         <li class="nav-item">
           <a class="nav-link active" routerLink="" aria-current="page"><i class="fa fa-lg fa-cart-plus"
+                                                                          style="font-size:25px"
                                                                           aria-hidden="true"></i><span
-            class="position-absolute top-10 start-20 translate-middle badge rounded-pill bg-danger">{{cartCount | async}}</span></a>
+            *ngIf="(cartCount | async) !== 0" style="font-size: 11px; margin-left: 5px"
+            class="position-absolute translate-middle badge rounded-pill bg-danger">{{cartCount | async}}</span></a>
         </li>
       </ul>
 
