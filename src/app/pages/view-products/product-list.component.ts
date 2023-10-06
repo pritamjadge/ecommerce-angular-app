@@ -7,6 +7,9 @@ import {Category} from '../../models/Category';
 import {AuthenticationService} from "../../services/authentication.service";
 import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
+import {CartService} from "../../services/cart.service";
+import {ToastrService} from "ngx-toastr";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-product',
@@ -26,15 +29,19 @@ export class ProductListComponent implements OnInit {
   productNotFoundMessage: string = "";
   errorMessage: string = "";
 
+
   constructor(private productService: ProductService,
               private authService: AuthenticationService,
-              private _router: Router) {
+              private _router: Router,
+              private cartService: CartService,
+              private _toastr: ToastrService) {
   }
 
   ngOnInit(): void {
     // Initialize data on component load
     this.getAllProducts(this.pageIndex, this.pageSize);
     this.getAllCategories();
+    this.setProductCartCount();
   }
 
   // Event Handlers
@@ -154,16 +161,58 @@ export class ProductListComponent implements OnInit {
     if (!this.authService.isLoggedIn()) {
       Swal.fire({
         title: 'User Not Logged in.',
-        text: 'Please Sign-In to add product to cart.',
+        text: 'Please Sign-In to add a product to the cart.',
         icon: 'info',
         allowOutsideClick: true,
       }).then();
       return false;
     } else {
       console.log("User Login");
-      //this.productService.setAddCartCount(1);
-      return true;
-    }
+      const username = this.authService.getUserName();
+      this.cartService.addProductToCart(username ?? '', productId).subscribe({
+        next: response => {
+          console.log(response);
+          if (response.includes('successfully')) {
+            this.showSuccessMessage(response);
+            this.setProductCartCount();
 
+          } else
+            this.showErrorMessage(response);
+        },
+        error: err => {
+          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong!',
+            text: 'Product not added into cart',
+          })
+        }
+      });
+    }
+    return true;
+  }
+
+  showSuccessMessage(message: string): void {
+    this._toastr.success(message, '', {
+      timeOut: 3500,
+      positionClass: 'toast-top-center',
+    });
+  }
+
+  private showErrorMessage(error: string) {
+    Swal.fire({
+      title: '',
+      text: error,
+      icon: 'warning',
+      allowOutsideClick: true,
+    }).then();
+  }
+
+  private setProductCartCount() {
+    if (this.authService.isLoggedIn()) {
+      this.cartService.getCartCount(this.authService.getUserName()).subscribe(count => {
+        this.cartService.setAddToCartCount(count);
+      });
+    }
   }
 }

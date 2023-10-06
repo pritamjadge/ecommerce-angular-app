@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Product} from "../models/Product";
-import {BehaviorSubject, Observable} from "rxjs";
 import {Category} from "../models/Category";
 
 @Injectable({
@@ -40,14 +39,4 @@ export class ProductService {
     return this._http.get<Category[]>(`${this.categoryBaseUrl}/get_categories`);
   }
 
-  addToCartCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-  getAddToCartCount(): Observable<number> {
-    return this.addToCartCount.asObservable();
-  }
-
-  setAddCartCount(cartValue: number) {
-    console.log(cartValue + this.addToCartCount.value);
-    this.addToCartCount.next(this.addToCartCount.value + cartValue);
-  }
 }

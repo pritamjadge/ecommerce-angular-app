@@ -75,4 +75,8 @@ export class AuthenticationService {
     localStorage.setItem("firstName", response.firstName);
     localStorage.setItem("lastName", response.lastName);
   }
+
+  getUserName() : string | null{
+    return localStorage.getItem("username");
+  }
 }
