@@ -22,8 +22,8 @@ export class NavBarComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this._authService.getLoggedInStatus();
     this.firstName = this._authService.getFirstName();
+    this.setProductCartCount();
     this.cartCount = this.cartService.getAddToCartCount();
-    this.cartCount.subscribe(count => console.log("Nav-Bar cart count : "+count));
   }
 
 
@@ -31,6 +31,14 @@ export class NavBarComponent implements OnInit {
     this._authService.logout();
     this.cartService.setAddToCartCount(0);
     this._toastrService.success('Logout Successfully !');
+  }
+
+  private setProductCartCount() {
+    if (this._authService.isLoggedIn()) {
+      this.cartService.getCartCount(this._authService.getUserName()).subscribe(count => {
+        this.cartService.setAddToCartCount(count);
+      });
+    }
   }
 
 }
