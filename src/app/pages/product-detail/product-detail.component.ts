@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/product.service";
 import {Product} from "../../models/Product";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-product-detail',
@@ -10,10 +11,14 @@ import {Product} from "../../models/Product";
 })
 export class ProductDetailComponent implements OnInit {
 
-  productId : number | undefined;
-  product!: Product ;
+  productId: number | undefined;
+  product!: Product;
+  productNotFoundMessage: string | undefined;
+  isLoading = false;
 
-  constructor(private _activatedRoute: ActivatedRoute, private _router: Router, private _productService: ProductService) {
+  constructor(private _activatedRoute: ActivatedRoute,
+              private _router: Router,
+              private _productService: ProductService) {
   }
 
   ngOnInit(): void {
@@ -21,17 +26,24 @@ export class ProductDetailComponent implements OnInit {
       next: (param) => {
         this.productId = Number(param.get('id'));
         this.getProductDetails(this.productId);
-      },
-      error: (err) => {
-        console.log(err);
       }
     });
   }
 
   getProductDetails(productId: number) {
-    this._productService.viewProductDetails(productId).subscribe(productDetail => {
-      this.product = productDetail;
-      console.log(this.product);
+    this.isLoading = true;
+    this._productService.viewProductDetails(productId).subscribe({
+      next: (productDetail) => {
+        if (productDetail != null || productDetail != "") {
+          this.isLoading = false;
+          this.product = productDetail;
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+        this.isLoading = false;
+        this.productNotFoundMessage = err.error;
+      }
     });
   }
 }
