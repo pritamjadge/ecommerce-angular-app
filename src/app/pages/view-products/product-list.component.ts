@@ -87,11 +87,13 @@ export class ProductListComponent implements OnInit {
     const categoryId = this.categoryId;
     this.productService.findByProductsByNameAndCategory(productName, categoryId, pageIndex, pageSize).subscribe({
       next: (productData: any) => {
-        this.handleProductData(productData);
+        if(!productData)
+          this.isLoading = false;
+        else
+          this.handleProductData(productData);
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = "Something went wrong, Please try again late.r";
-        this.isLoading = false;
+        this.errorMessage = "Something went wrong, Please try again later.";
       }
     });
   }
