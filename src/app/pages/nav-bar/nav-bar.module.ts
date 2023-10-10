@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import {BreadcrumbComponent} from "./breadcrumb/breadcrumb.component";
 
 
 @NgModule({
@@ -18,9 +19,11 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     NavBarComponent,
     LoginComponent,
     SignUpComponent,
+    BreadcrumbComponent
   ],
   exports: [
-    NavBarComponent
+    NavBarComponent,
+    BreadcrumbComponent
   ]
 
 })
