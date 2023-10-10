@@ -9,13 +9,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/product" aria-current="page">Home</a>
+          <a class="nav-link active" routerLink="/dashboard" aria-current="page">Home</a>
         </li>
       </ul>
 
       <ul class="navbar-nav d-flex" style="margin-right: 10px">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="" aria-current="page"><i class="fa fa-lg fa-cart-plus"
+          <a class="nav-link active" routerLink="./dashboard/cart" aria-current="page"><i class="fa fa-lg fa-cart-plus"
                                                                           style="font-size:25px"
                                                                           aria-hidden="true"></i><span
             *ngIf="(cartCount | async) !== 0" style="font-size: 11px; margin-left: 5px"

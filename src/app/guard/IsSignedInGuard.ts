@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Router,
-  RouterStateSnapshot, UrlTree
+  RouterStateSnapshot
 } from '@angular/router';
 import {AuthenticationService} from "../services/authentication.service";
 import {ToastrService} from "ngx-toastr";
@@ -15,7 +15,7 @@ export class IsSignedInGuard {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.loginService.isLoggedIn()) {
-      this.router.navigate(["/product"]).then();
+      this.router.navigate(["/dashboard"]).then();
       this.toastrService.info("User Already Logged In !!", '', {
         timeOut: 3000,
         positionClass: 'toast-bottom-center',

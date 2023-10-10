@@ -1,4 +1,4 @@
-<h2 class="text-center mt-2">Product Catalog</h2>
+<h2 class="text-center">Product Catalog</h2>
 <div class="row">
   <div class="col-md-2 mt-2 ps-5">
     <button mat-raised-button [matMenuTriggerFor]="menu" color="primary"><i class="fa fa-sort" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
               <h3 class="card-title">{{product.productName}}</h3>
             </div>
             <p class="card-text">{{product.productPrice | currency: 'INR'}}</p>
-            <button class="btn btn-sm btn-primary me-2" [routerLink]="['/product',product.productId]">View Details
+            <button class="btn btn-sm btn-primary me-2" [routerLink]="['/product/',product.productId]">View Details
             </button>
             <a (click)="addToCart(product.productId);" class="btn btn-sm btn-danger">Add
               to Cart</a>

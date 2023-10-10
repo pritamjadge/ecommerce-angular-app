@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
           this.loginService.setLoggedInStatus(true);
           this.loginService.setFirstName(resp.firstName);
           this.toastrService.success('You have logged in successfully!');
-          this.router.navigate(['/product']).then();
+          this.router.navigate(['/dashboard']).then();
         },
         error: (err) => {
           console.log(err.error);

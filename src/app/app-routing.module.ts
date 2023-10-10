@@ -8,17 +8,19 @@ import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.compo
 import {PageNotFoundActivateGuard} from "./guard/page-not-found-activate-guard.service";
 import {ProductDetailComponent} from "./pages/product-detail/product-detail.component";
 import {SignUpComponent} from "./pages/nav-bar/sign-up/sign-up.component";
+import {CartComponent} from "./pages/cart/cart.component";
 
 const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'product',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
-    path: 'product',
+    path: 'dashboard',
     component: ProductListComponent,
+    data: {breadcrumb: 'Home'}
     // canActivate: [AuthGuard],
     // children: [
     //   {
@@ -30,7 +32,8 @@ const routes: Routes = [
   },
   {
     path: 'product/:id',
-    component: ProductDetailComponent
+    component: ProductDetailComponent,
+    data: {breadcrumb: 'Product Detail'}
   },
   {
     path: 'login',
@@ -40,6 +43,12 @@ const routes: Routes = [
   {
     path: 'sign-up',
     component: SignUpComponent,
+  },
+  {
+    path: 'dashboard/cart',
+    component: CartComponent,
+    canActivate: [AuthGuard],
+    data: {breadcrumb: 'Cart'}
   },
   {
     path: '**',

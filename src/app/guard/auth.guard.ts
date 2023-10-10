@@ -4,11 +4,12 @@ import {
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from "../services/authentication.service";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable()
 export class AuthGuard {
 
-  constructor(private loginService: AuthenticationService, private router: Router) {
+  constructor(private loginService: AuthenticationService, private router: Router, private toast: ToastrService) {
 
   }
 
@@ -19,7 +20,9 @@ export class AuthGuard {
     if (this.loginService.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(['login']).then();
+      this.router.navigate(['login']).then(result => {
+        this.toast.info("User must login first.")
+      });
       return false;
     }
   }

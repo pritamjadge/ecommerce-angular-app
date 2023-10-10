@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
@@ -14,7 +14,7 @@ export class PageNotFoundComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.homePage = this.authService.isLoggedIn() ? 'product' : 'login';
+    this.homePage = this.authService.isLoggedIn() ? 'dashboard' : 'login';
   }
 
 }

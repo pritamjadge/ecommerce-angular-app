@@ -23,13 +23,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {NgFor} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CartComponent } from './pages/cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     PageNotFoundComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    CartComponent
   ],
   imports: [
     NavBarModule,

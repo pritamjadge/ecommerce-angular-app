@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
 import {CartService} from "../../services/cart.service";
 import {ToastrService} from "ngx-toastr";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-product',
@@ -50,8 +49,7 @@ export class ProductListComponent implements OnInit {
   getCategoryProductsOnChange(event: any, matPaginator: MatLegacyPaginator) {
     const pageIndex = matPaginator.pageIndex;
     const pageSize = matPaginator.pageSize;
-    const selectedValue = event.target.value;
-    this.categoryId = selectedValue;
+    this.categoryId = event.target.value;
     this.getAllProductsPagination(pageIndex, pageSize);
   }
 
@@ -67,7 +65,7 @@ export class ProductListComponent implements OnInit {
   sort(criteria: string): void {
     switch (criteria) {
       case 'name':
-        this.products.sort((a, b) => this.compareStrings(a.productName, b.productName));
+        this.products.sort((a, b) => ProductListComponent.compareStrings(a.productName, b.productName));
         break;
       case 'priceLowToHigh':
         this.products.sort((a, b) => a.productPrice - b.productPrice);
@@ -87,7 +85,7 @@ export class ProductListComponent implements OnInit {
     const categoryId = this.categoryId;
     this.productService.findByProductsByNameAndCategory(productName, categoryId, pageIndex, pageSize).subscribe({
       next: (productData: any) => {
-        if(!productData)
+        if (!productData)
           this.isLoading = false;
         else
           this.handleProductData(productData);
@@ -152,7 +150,7 @@ export class ProductListComponent implements OnInit {
   }
 
   // Utility method to compare strings for sorting
-  private compareStrings(a: string, b: string): number {
+  private static compareStrings(a: string, b: string): number {
     const nameA = a.toLowerCase();
     const nameB = b.toLowerCase();
     return nameA.localeCompare(nameB);
@@ -177,9 +175,8 @@ export class ProductListComponent implements OnInit {
           if (response.includes('successfully')) {
             this.showSuccessMessage(response);
             this.setProductCartCount();
-
           } else
-            this.showErrorMessage(response);
+            ProductListComponent.showErrorMessage(response);
         },
         error: err => {
           console.log(err);
@@ -201,7 +198,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  private showErrorMessage(error: string) {
+  private static showErrorMessage(error: string) {
     Swal.fire({
       title: '',
       text: error,
