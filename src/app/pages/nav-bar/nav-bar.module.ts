@@ -4,26 +4,25 @@ import {NavBarComponent} from "./nav-bar.component";
 import {LoginComponent} from "./login/login.component";
 import {ReactiveFormsModule} from '@angular/forms';
 
-import { RouterModule } from '@angular/router';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import {BreadcrumbComponent} from "./breadcrumb/breadcrumb.component";
+import {RouterModule} from '@angular/router';
+import {SignUpComponent} from './sign-up/sign-up.component';
+import {NavBarRoutingModule} from "./nav-bar-routing.module";
 
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NavBarRoutingModule
   ],
   declarations: [
     NavBarComponent,
     LoginComponent,
     SignUpComponent,
-    BreadcrumbComponent
   ],
   exports: [
     NavBarComponent,
-    BreadcrumbComponent
   ]
 
 })

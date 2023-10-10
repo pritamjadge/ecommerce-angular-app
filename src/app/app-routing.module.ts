@@ -1,14 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./pages/nav-bar/login/login.component";
-import {ProductListComponent} from "./pages/view-products/product-list.component";
-import {AuthGuard} from "./guard/auth.guard";
-import {IsSignedInGuard} from "./guard/IsSignedInGuard";
-import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.component";
+import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 import {PageNotFoundActivateGuard} from "./guard/page-not-found-activate-guard.service";
-import {ProductDetailComponent} from "./pages/product-detail/product-detail.component";
-import {SignUpComponent} from "./pages/nav-bar/sign-up/sign-up.component";
-import {CartComponent} from "./pages/cart/cart.component";
 
 const routes: Routes = [
 
@@ -19,36 +12,11 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: ProductListComponent,
-    data: {breadcrumb: 'Home'}
-    // canActivate: [AuthGuard],
-    // children: [
-    //   {
-    //     path: 'employeeList',
-    //     component: EmployeeListComponent,
-    //     canActivate: [AuthGuard],
-    //   },
-    // ]
+    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
   },
   {
-    path: 'product/:id',
-    component: ProductDetailComponent,
-    data: {breadcrumb: 'Product Detail'}
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [IsSignedInGuard],
-  },
-  {
-    path: 'sign-up',
-    component: SignUpComponent,
-  },
-  {
-    path: 'dashboard/cart',
-    component: CartComponent,
-    canActivate: [AuthGuard],
-    data: {breadcrumb: 'Cart'}
+    path: '',
+    loadChildren: () => import('./pages/nav-bar/nav-bar.module').then(m => m.NavBarModule) // use for login and sign-in
   },
   {
     path: '**',
