@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {User} from "../../../models/User";
 import Swal from 'sweetalert2';
+import {BreadcrumbService} from "../../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-sign-up',
@@ -20,12 +21,14 @@ export class SignUpComponent implements OnInit {
     private _fb: FormBuilder,
     private _authService: AuthenticationService,
     private _toastr: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private breadcrumbService: BreadcrumbService
   ) {
   }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.breadcrumbService.clearBreadcrumb();
   }
 
   initializeForm(): void {

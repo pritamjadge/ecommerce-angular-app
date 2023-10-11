@@ -5,6 +5,7 @@ import {LoginResponse} from "../../../models/LoginResponse";
 import {Router} from "@angular/router";
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from "../../../services/token-storage.service";
+import {BreadcrumbService} from "../../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-login',
@@ -21,10 +22,16 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
-  constructor(private _fb: FormBuilder, private tokenStorage: TokenStorageService, private loginService: AuthenticationService, private router: Router, private toastrService: ToastrService) {
+  constructor(private _fb: FormBuilder,
+              private tokenStorage: TokenStorageService,
+              private loginService: AuthenticationService,
+              private router: Router,
+              private toastrService: ToastrService,
+              private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbService.clearBreadcrumb();
 
     this.loginForm = this._fb.group({
       'username': ['', [Validators.required]],

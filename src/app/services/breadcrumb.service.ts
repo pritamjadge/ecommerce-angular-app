@@ -1,22 +1,18 @@
 import {Injectable} from '@angular/core';
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BreadcrumbService {
+  private breadcrumbSubject = new BehaviorSubject<string[]>([]);
+  breadcrumb$ = this.breadcrumbSubject.asObservable();
 
-  private breadcrumbs: Array<{ label: string, url: string }> = [];
-
-  getBreadcrumbs(): Array<{ label: string, url: string }> {
-    return this.breadcrumbs;
+  setBreadcrumb(breadcrumb: string[]) {
+    this.breadcrumbSubject.next(breadcrumb);
   }
 
-  addBreadcrumb(label: string, url: string): void {
-    this.breadcrumbs.push({ label, url });
+  clearBreadcrumb() {
+    this.breadcrumbSubject.next([]);
   }
-
-  clearBreadcrumbs(): void {
-    this.breadcrumbs = [];
-  }
-
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/product.service";
 import {Product} from "../../models/Product";
 import {HttpErrorResponse} from "@angular/common/http";
+import {BreadcrumbService} from "../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -18,7 +19,8 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(private _activatedRoute: ActivatedRoute,
               private _router: Router,
-              private _productService: ProductService) {
+              private _productService: ProductService,
+              private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit(): void {
@@ -28,6 +30,7 @@ export class ProductDetailComponent implements OnInit {
         this.getProductDetails(this.productId);
       }
     });
+    this.breadcrumbService.setBreadcrumb(['Dashboard', 'Product']);
   }
 
   getProductDetails(productId: number) {
