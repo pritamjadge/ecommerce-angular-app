@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
+import {CartItem} from "../models/CartItem";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ import {BehaviorSubject, Observable} from "rxjs";
 export class CartService {
 
   private baseUrl: String = 'http://localhost:8080/api/cart';
+
+  addToCartCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private _http: HttpClient) {
   }
@@ -21,7 +24,9 @@ export class CartService {
     return this._http.get<number>(`${this.baseUrl}/cart_count/${username}`);
   }
 
-  addToCartCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  getCartItems(username: string | null) {
+    return this._http.get<CartItem[]>(`${this.baseUrl}/get_cart_items/${username}`);
+  }
 
   getAddToCartCount(): Observable<number> {
     return this.addToCartCount.asObservable();
@@ -31,4 +36,7 @@ export class CartService {
     this.addToCartCount.next(cartValue);
   }
 
+  removeCartItem(cartId: number, username: string | null) {
+    return this._http.delete(`${this.baseUrl}/remove_cart_item/${cartId}/${username}`, {responseType: 'text'});
+  }
 }

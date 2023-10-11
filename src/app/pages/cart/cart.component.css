@@ -1,0 +1,80 @@
+.center-text {
+  text-align: center; /* Horizontally center text */
+  vertical-align: middle; /* Vertically center text */
+}
+
+.center-text-vertical {
+  vertical-align: middle; /* Vertically center text */
+}
+
+.close-button {
+  font-size: 20px;
+  color: darkred;
+  border: 1px solid darkred;
+  border-radius: 20%;
+  box-shadow: -1px -1px 2px,1px 1px 2px;
+  padding: 1px; /* Adjust the padding as needed */
+  display: inline-block; /* Ensure the button is displayed as an inline-block element */
+  text-align: center; /* Center-align the button */
+  cursor: pointer; /* Add a pointer cursor on hover */
+}
+
+.close-button:hover {
+  background-color: darkred;
+  color: white;
+}
+
+.remove-item{
+  color: red;
+  text-decoration: none;
+}
+
+.remove-item:hover{
+  text-shadow: 2px 2px 10px red;
+}
+
+.enlarge-on-hover {
+  transition: transform 0.3s; /* Add a smooth transition effect */
+}
+
+.enlarge-on-hover:hover {
+  transform: scale(1.1); /* Enlarge the image by 20% on hover */
+}
+
+.list-group-item{
+  border: none;
+  padding: 3px;
+}
+
+.custom-select-dropdown {
+  width: 50px; /* Set the desired width */
+  padding: 5px; /* Add padding for spacing */
+  border: 1px solid grey; /* Add a border for visual separation (optional) */
+  border-radius: 4px; /* Add border-radius for rounded corners (optional) */
+  font-size: 14px; /* Set the font size */
+  background-color: whitesmoke; /* Background color (optional) */
+}
+
+.table-fix {
+  /* Add a specific height to the container, allowing the table to scroll within it */
+  max-height: 440px; /* Adjust the height as needed */
+  overflow: hidden; /* Hide any overflow from the child elements */
+  position: relative; /* Establish a relative positioning context */
+}
+
+.table-header {
+  /* Fix the header at the top */
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensure the header appears above the body content */
+  background-color: #fff; /* Set a background color for the header */
+}
+
+.table-body {
+  /* Make the body scrollable */
+  height: 100%;
+  overflow-y: auto;
+  position: relative; /* Establish a relative positioning context */
+  top: 0; /* Align with the top of the container */
+  padding-bottom: 36px;
+}

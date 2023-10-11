@@ -1,9 +1,104 @@
-<h2 class="text-center mt-2">Product Catalog</h2>
-<div class="row">
+<div class="container">
+  <h2 class="text-center">My Cart</h2>
   <hr>
-  <div class="d-flex justify-content-center"> <!--*ngIf="isLoading && products.length === 0">-->
+  <div class="row">
+    <div class="col-md-8 table-fix">
+      <div class="table-header">
+        <table class="table">
+          <thead class="table-info">
+          <tr class="table-active" style="font-size: 15px">
+            <th scope="col" colspan="2" class="text-center">Product</th>
+            <th scope="col" class="text-end">Quantity</th>
+            <th scope="col" class="text-center">Subtotal</th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="table-body">
+        <table class="table bg-white">
+          <tbody>
+          <tr *ngFor="let item of cartItems; let i = index">
+            <td style="width: 100px;" class="text-center"><a href="#">
+              <img src="{{ item.productImageUrl }}" class="enlarge-on-hover" style="height: 80px; width: 60px" alt=""/>
+            </a></td>
+            <td>
+              <ul class="list-group">
+                <li class="list-group-item"><b><a href="#" style="text-decoration: none">{{item.productName}}</a></b>
+                </li>
+                <li class="list-group-item"><b>Price :</b> {{item.productPrice | currency:'INR'}}</li>
+                <li class="list-group-item"><a href="javascript:void(0);" (click)="removeCartItem(item.cartId)"
+                                               class="remove-item">Remove</a></li>
+              </ul>
+            </td>
+            <td class="center-text-vertical">
+              <select class="custom-select-dropdown" [(ngModel)]="item.productQty" name="productQty">
+                <option *ngFor="let option of quantityOptions" [value]="option">{{ option }}</option>
+              </select>
+            </td>
+            <td class="center-text-vertical">{{item.productPrice * item.productQty | currency:'INR'}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <table class="table bg-white shadow-lg">
+        <thead>
+        <tr>
+          <th style="padding: 15px;" scope="col" colspan="3" class="text-end table-primary">Total :</th>
+          <td class="center-text-vertical">{{cartItemTotalAmount | currency:'INR'}}</td>
+        </tr>
+        <tr>
+          <th style="padding: 15px;" scope="col" colspan="3" class="text-end table-primary"> Discount: <br>
+            <button style="padding: 1px; font-size: 12px" class="btn btn-sm btn-warning">Apply Coupon Code</button>
+          </th>
+          <td class="center-text-vertical">$0 (0%)</td>
+          <!--<a href=""><svg xmlns="http://www.w3.org/2000/svg" height="1.20em" viewBox="0 0 448 512"><style>svg{fill:#d71919}</style><path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg></a><br><span style="font-size: 10px; color: #d71919">(Coupon code applied)</span>-->
+        </tr>
+        <tr>
+          <th style="padding: 15px;" scope="col" colspan="3" class="text-end table-primary">Grand Total :</th>
+          <td class="center-text-vertical">dssd</td>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="row">
+  <hr>
+  <div class="d-flex justify-content-center"> &lt;!&ndash;*ngIf="isLoading && products.length === 0">&ndash;&gt;
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-</div>
+</div>-->
+
+
+<!--<table class="table shadow-lg table-bordered border-2">
+   <thead>
+   <tr class="table-active">
+     &lt;!&ndash;<th scope="col">Sr.</th>&ndash;&gt;
+     <th scope="col">Image</th>
+     <th scope="col">Product</th>
+     <th scope="col">Price</th>
+     <th scope="col">Quantity</th>
+     <th scope="col">Subtotal</th>
+     <th scope="col">Delete</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr *ngFor="let item of cartItems; let i = index" class="center-text-vertical">
+    &lt;!&ndash; <th>{{ i + 1 }}</th>&ndash;&gt;
+     <td><img src="{{ item.productImageUrl }}" height="60px" width="50px"/></td>
+     <td><b>{{ item.productName }}</b></td>
+     <td>{{ item.productPrice | currency:'INR' }}</td>
+     <td>{{item.productQty}}</td>
+     <td>{{item.productPrice * item.productQty | currency:'INR'}}</td>
+     <td class="text-center">
+       <a href=""><i class="fa fa-close close-button" aria-hidden="true"></i></a>
+     </td>
+   </tr>
+   </tbody>
+ </table>-->
