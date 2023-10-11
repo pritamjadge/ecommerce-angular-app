@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
 import {CartService} from "../../services/cart.service";
 import {ToastrService} from "ngx-toastr";
+import {BreadcrumbService} from "../../services/breadcrumb.service";
 
 @Component({
   selector: 'app-product',
@@ -33,7 +34,8 @@ export class ProductListComponent implements OnInit {
               private authService: AuthenticationService,
               private _router: Router,
               private cartService: CartService,
-              private _toastr: ToastrService) {
+              private _toastr: ToastrService,
+              private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class ProductListComponent implements OnInit {
     this.getAllProducts(this.pageIndex, this.pageSize);
     this.getAllCategories();
     this.setProductCartCount();
+    this.breadcrumbService.setBreadcrumb(['Dashboard']);
   }
 
   // Event Handlers
@@ -90,7 +93,7 @@ export class ProductListComponent implements OnInit {
         else
           this.handleProductData(productData);
       },
-      error: (err: HttpErrorResponse) => {
+      error: () => {
         this.errorMessage = "Something went wrong, Please try again later.";
       }
     });
@@ -176,15 +179,15 @@ export class ProductListComponent implements OnInit {
             this.showSuccessMessage(response);
             this.setProductCartCount();
           } else
-            ProductListComponent.showErrorMessage(response);
+            this.showErrorMessage(response, 'warning');
         },
         error: err => {
           console.log(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Something went wrong!',
-            text: 'Product not added into cart',
-          })
+          if (err.status == 404)
+            this.showErrorMessage(err.error, 'warning');
+
+          if (err.status == 0)
+            this.showErrorMessage("Connection Not Established.", 'error');
         }
       });
     }
@@ -198,11 +201,11 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  private static showErrorMessage(error: string) {
+  showErrorMessage(error: any, _icon: any) {
     Swal.fire({
       title: '',
       text: error,
-      icon: 'warning',
+      icon: _icon,
       allowOutsideClick: true,
     }).then();
   }

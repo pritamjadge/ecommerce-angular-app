@@ -11,6 +11,7 @@ import {RouterModule} from '@angular/router';
 import {PagesRoutingModule} from "./pages-routing.module";
 import {CartComponent} from "./cart/cart.component";
 import {ProductDetailComponent} from "./product-detail/product-detail.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,17 +19,18 @@ import {ProductDetailComponent} from "./product-detail/product-detail.component"
     CartComponent,
     ProductDetailComponent
   ],
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatSelectModule,
-    RouterModule,
-    PagesRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatSelectModule,
+        RouterModule,
+        PagesRoutingModule,
+        FormsModule
+    ]
 })
 export class PagesModule {
 }
