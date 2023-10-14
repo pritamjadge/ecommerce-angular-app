@@ -8,7 +8,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 })
 export class PageNotFoundComponent implements OnInit {
 
-  homePage!: String;
+  homePage!: string;
 
   constructor(private authService: AuthenticationService) {
   }

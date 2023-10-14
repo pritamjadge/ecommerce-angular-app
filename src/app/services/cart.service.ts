@@ -8,7 +8,7 @@ import {CartItem} from "../models/CartItem";
 })
 export class CartService {
 
-  private baseUrl: String = 'http://localhost:8080/api/cart';
+  private baseUrl: string = 'http://localhost:8080/api/cart';
 
   addToCartCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 

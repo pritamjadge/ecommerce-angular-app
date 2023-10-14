@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class AuthenticationService {
 
-  private baseUrl: String = 'http://localhost:8080/api/auth';
+  private baseUrl: string = 'http://localhost:8080/api/auth';
 
   private _loggedInStatus = new BehaviorSubject<boolean>(this.isLoggedIn());
   private _firstName = new BehaviorSubject<string>(localStorage.getItem('firstName')!);

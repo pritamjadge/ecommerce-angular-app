@@ -68,7 +68,6 @@ export class SignUpComponent implements OnInit {
             this.navigateToLogin();
           }
         });
-        //this.showSuccessMessage("User Sign Up Successfully..!");
       },
       error: (err) => {
         this.signup_reset_btn = false;

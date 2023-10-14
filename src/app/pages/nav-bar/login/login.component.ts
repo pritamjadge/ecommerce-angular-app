@@ -15,7 +15,7 @@ import {BreadcrumbService} from "../../../services/breadcrumb.service";
 export class LoginComponent implements OnInit {
 
   loginResponse!: LoginResponse;
-  passwordStatus!: String;
+  passwordStatus!: string;
   passwordShow!: boolean;
   showAlert!: string;
   alertErrorMessage!: string;

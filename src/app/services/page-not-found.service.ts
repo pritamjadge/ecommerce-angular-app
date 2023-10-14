@@ -8,8 +8,6 @@ export class PageNotFoundService {
 
   private _navBarStatusOn404 = new BehaviorSubject<boolean>(true);
 
-  constructor() { }
-
   getNavBarStatusOn404() {
     this._navBarStatusOn404.asObservable();
     console.log("getNavBarStatusOn404 :"+this._navBarStatusOn404.value);

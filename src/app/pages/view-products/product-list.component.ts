@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/Product';
 import {HttpErrorResponse} from '@angular/common/http';
-import {MatLegacyPaginator} from '@angular/material/legacy-paginator';
+import {MatPaginator} from '@angular/material/paginator';
 import {Category} from '../../models/Category';
 import {AuthenticationService} from "../../services/authentication.service";
 import Swal from 'sweetalert2';
@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit {
   // Event Handlers
 
   // Handle category change event
-  getCategoryProductsOnChange(event: any, matPaginator: MatLegacyPaginator) {
+  getCategoryProductsOnChange(event: any, matPaginator: MatPaginator) {
     const pageIndex = matPaginator.pageIndex;
     const pageSize = matPaginator.pageSize;
     this.categoryId = event.target.value;
@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
   }
 
   // Handle product name input change event
-  findByProductsName(event: any, matPaginator: MatLegacyPaginator) {
+  findByProductsName(event: any, matPaginator: MatPaginator) {
     const pageIndex = matPaginator.pageIndex;
     const pageSize = matPaginator.pageSize;
     this.productName = event.target.value;

@@ -59,7 +59,8 @@
               <h3 class="card-title">{{product.productName}}</h3>
             </div>
             <p class="card-text">{{product.productPrice | currency: 'INR'}}</p>
-            <button class="btn btn-sm btn-primary me-2" [routerLink]="['/dashboard/product/',product.productId]">View Details
+            <button class="btn btn-sm btn-primary me-2" [routerLink]="['/dashboard/product/',product.productId]">View
+              Details
             </button>
             <a (click)="addToCart(product.productId);" class="btn btn-sm btn-danger">Add
               to Cart</a>

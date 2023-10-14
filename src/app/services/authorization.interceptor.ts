@@ -32,7 +32,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
         console.log("Token Expired will handle 401 Error");
         return this.handle401Error(authReq, next);
       }
-      return throwError(error);
+      return throwError(() => error);
     }));
   }
 
@@ -49,7 +49,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
 
             const newToken = token.tokenType + " " + token.accessToken;
-            console.log("New Token : " + newToken);
+            console.log("New Token: " + newToken);
 
             this._tokenService.setToken(newToken);
             this.refreshTokenSubject.next(newToken);
@@ -62,8 +62,8 @@ export class AuthorizationInterceptor implements HttpInterceptor {
             this._toast.error("Opps..!! Session has expired.", '', {
               timeOut: 3000,
               positionClass: 'toast-bottom-center',
-            })
-            return throwError(err);
+            });
+            return throwError(() => err);
           })
         );
       }
@@ -71,7 +71,8 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     return this.refreshTokenSubject.pipe(
       filter(token => token !== null),
       take(1),
-      switchMap((token) => next.handle(AuthorizationInterceptor.addTokenHeader(request, token)))
+      switchMap((token) => next.handle(AuthorizationInterceptor.addTokenHeader(request, token))
+      )
     );
   }
 

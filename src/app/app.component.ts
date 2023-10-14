@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PageNotFoundService} from "./services/page-not-found.service";
 import {Observable} from "rxjs";
 
