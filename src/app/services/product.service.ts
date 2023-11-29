@@ -17,14 +17,13 @@ export class ProductService {
   constructor(private _http: HttpClient) {
   }
 
-
   getAllProducts(page: number, size: number): any {
     return this._http.get<any>(`${this.productsBaseUrl}/find_products?page=${page}&size=${size}`);
   }
 
   findByProductsByNameAndCategory(productName: string, categoryId: any, pageIndex: number, pageSize: number) {
-    console.log("productName {} :"+productName);
-    console.log("categoryId {} :"+categoryId);
+    console.log("productName {} :" + productName);
+    console.log("categoryId {} :" + categoryId);
     const encodedProductName = encodeURIComponent(productName);
     return this._http.get<any>(`${this.productsBaseUrl}/find_products_by_name?productName=${encodedProductName}&categoryId=${categoryId}&page=${pageIndex}&size=${pageSize}`);
 

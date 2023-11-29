@@ -39,4 +39,8 @@ export class CartService {
   removeCartItem(cartId: number, username: string | null) {
     return this._http.delete(`${this.baseUrl}/remove_cart_item/${cartId}/${username}`, {responseType: 'text'});
   }
+
+  updateProductQuantity(selectedQuantity: number, cartId : number) {
+    return this._http.patch(`${this.baseUrl}/update_product_quantity/${cartId}/${selectedQuantity}`,null,{responseType: 'text'});
+  }
 }

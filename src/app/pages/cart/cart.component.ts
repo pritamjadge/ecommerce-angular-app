@@ -4,6 +4,8 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {CartService} from "../../services/cart.service";
 import {CartItem} from "../../models/CartItem";
 import Swal from "sweetalert2";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-cart',
@@ -12,14 +14,17 @@ import Swal from "sweetalert2";
 })
 export class CartComponent implements OnInit {
 
-  cartItems: CartItem[] | undefined;
+  cartItems!: CartItem[];
   quantityOptions: number[] = [1, 2, 3, 4, 5, 6];
 
   cartItemTotalAmount: number | undefined;
+  discountedAmountOnCartItems : number | undefined;
+  cartItemGrandTotalAmount: number | undefined;
 
   constructor(private breadcrumbService: BreadcrumbService,
               private authService: AuthenticationService,
-              private cartService: CartService) {
+              private cartService: CartService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +42,9 @@ export class CartComponent implements OnInit {
           this.cartItems = cartItemsResp;
           console.log(this.cartItems);
           this.cartItemTotalAmount = this.totalAmountOfCartItems(this.cartItems);
+          //applied 5 % discount on total cart amount
+          this.discountedAmountOnCartItems = +(this.cartItemTotalAmount * 5 / 100).toFixed(2);
+          this.cartItemGrandTotalAmount = +(this.cartItemTotalAmount - (this.cartItemTotalAmount * 5 / 100)).toFixed(2);
         }
       })
       return true;
@@ -85,6 +93,25 @@ export class CartComponent implements OnInit {
         return false;
       });
     }
+  }
+
+  updateProductQuantity(productIndex: any) {
+    const updatedQuantity = this.cartItems[productIndex].productQty;
+    const cartId = this.cartItems[productIndex].cartId;
+    const username = this.authService.getUserName();
+    this.cartService.updateProductQuantity(updatedQuantity, cartId).subscribe({
+      next: (resp) => {
+        console.log(resp);
+        this.getCartItems();
+        this.cartService.getCartCount(username).subscribe(count => {
+          this.cartService.setAddToCartCount(count);
+        });
+        this.toastrService.success(resp, "Success");
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastrService.error(err.message, "Error");
+      }
+    });
   }
 
 }
