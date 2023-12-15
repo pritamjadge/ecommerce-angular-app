@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {CartItem} from "../models/CartItem";
+import {TransactionDetails} from "../models/TransactionDetails";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class CartService {
     return this._http.get<number>(`${this.baseUrl}/cart_count/${username}`);
   }
 
-  getCartItems(username: string | null) {
+  getCartItems(username: string | null) : Observable<CartItem[]> {
     return this._http.get<CartItem[]>(`${this.baseUrl}/get_cart_items/${username}`);
   }
 
@@ -40,7 +41,12 @@ export class CartService {
     return this._http.delete(`${this.baseUrl}/remove_cart_item/${cartId}/${username}`, {responseType: 'text'});
   }
 
-  updateProductQuantity(selectedQuantity: number, cartId : number) {
-    return this._http.patch(`${this.baseUrl}/update_product_quantity/${cartId}/${selectedQuantity}`,null,{responseType: 'text'});
+  updateProductQuantity(selectedQuantity: number, cartId: number) {
+    return this._http.patch(`${this.baseUrl}/update_product_quantity/${cartId}/${selectedQuantity}`, null, {responseType: 'text'});
+  }
+
+  paymentCheckout(grandAmount: number): Observable<TransactionDetails> {
+    const url = `${this.baseUrl}/create_transaction/${grandAmount}`;
+    return this._http.post<TransactionDetails>(url, null);
   }
 }

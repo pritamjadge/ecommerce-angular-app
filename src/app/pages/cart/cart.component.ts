@@ -6,6 +6,9 @@ import {CartItem} from "../../models/CartItem";
 import Swal from "sweetalert2";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {TransactionDetails} from "../../models/TransactionDetails";
+
+declare let Razorpay: any;
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +21,7 @@ export class CartComponent implements OnInit {
   quantityOptions: number[] = [1, 2, 3, 4, 5, 6];
 
   cartItemTotalAmount: number | undefined;
-  discountedAmountOnCartItems : number | undefined;
+  discountedAmountOnCartItems: number | undefined;
   cartItemGrandTotalAmount: number | undefined;
 
   constructor(private breadcrumbService: BreadcrumbService,
@@ -112,6 +115,56 @@ export class CartComponent implements OnInit {
         this.toastrService.error(err.message, "Error");
       }
     });
+  }
+
+  checkoutPayment(): any {
+    const grandTotalAmount = this.cartItemGrandTotalAmount;
+    if (grandTotalAmount === null) {
+      return false;
+    }
+    this.cartService.paymentCheckout(grandTotalAmount ?? 0).subscribe({
+      next: (resp) => {
+        this.openTransactions(resp);
+        console.log(resp);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  openTransactions(resp: TransactionDetails) {
+    let options = {
+      order_id: resp.orderId,
+      key: resp.key,
+      amount: resp.amount,
+      currency: resp.currency,
+      name: 'Learning',
+      description: 'Payment of online shopping',
+      image: 'https://img.freepik.com/premium-vector/abstract-modern-ecommerce-logo-design-colorful-gradient-happy-shopping-logo-template_467913-990.jpg',
+      handle: (response: any) => {
+        console.log('RazerPay API Response:', response);
+        this.processResponse(response);
+      },
+      prefill: {
+        name: '',
+        email: '',
+        contact: '',
+      },
+      notes: {
+        address: 'Online Shopping'
+      },
+      theme: {
+        color: '#356dea'
+      }
+    }
+
+    let razorPayObj = new Razorpay(options);
+    razorPayObj.open();
+  }
+
+  processResponse(resp: any) {
+    console.log(resp);
   }
 
 }
